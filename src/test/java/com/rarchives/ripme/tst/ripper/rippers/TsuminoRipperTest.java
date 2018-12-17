@@ -1,6 +1,7 @@
 package com.rarchives.ripme.tst.ripper.rippers;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -33,5 +34,24 @@ public class TsuminoRipperTest extends RippersTest {
         blacklistedTag = RipUtils.checkTags(tags3, tagsOnPage);
         assertNull(blacklistedTag);
 
+    }
+
+    public void testGetGID() throws IOException {
+        URL goodURL = new URL(
+                "http://www.tsumino.com/Book/Info/43528/sore-wa-kurokute-suketeita-what-s-tight-and-black-and-sheer-all-over-"
+        );
+        TsuminoRipper ripper = new TsuminoRipper(goodURL);
+        assertEquals(ripper.getGID(goodURL), "43528_sore-wa-kurokute-suketeita-what-s-tight-and-black-and-sheer-all-over-");
+        goodURL = new URL(
+                "http://www.tsumino.com/Book/Info/43528"
+        );
+        assertEquals(ripper.getGID(goodURL), "43528");
+        URL badURL = new URL(
+                "http://www.tsumino.com/Books"
+        );
+        try {
+            String GID = ripper.getGID(badURL);
+            fail("Ripper should throw exception, instead it returned: " + GID);
+        } catch (MalformedURLException e){}
     }
 }

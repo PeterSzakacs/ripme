@@ -170,10 +170,10 @@ public class FlickrRipper extends AbstractHTMLRipper {
         final String domainRegex = "https?://[wm.]*flickr.com";
         final String userRegex = "[a-zA-Z0-9@_-]+";
         // Album
-        p = Pattern.compile("^" + domainRegex + "/photos/(" + userRegex + ")/sets/([0-9]+)/?.*$");
+        p = Pattern.compile("^" + domainRegex + "/photos/(" + userRegex + ")/(sets|albums)/([0-9]+)/?.*$");
         m = p.matcher(url.toExternalForm());
         if (m.matches()) {
-            return m.group(1) + "_" + m.group(2);
+            return m.group(1) + "_" + m.group(3);
         }
 
         // User page
